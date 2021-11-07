@@ -1,9 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
-import Navigation from '../Navigation/Navigation';
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
@@ -12,13 +9,14 @@ import Login from '../Login/Login';
 import Register from '../Register/Register';
 
 function App() {
+  // const [loggedIn, setLoggedIn] = React.useState(true);
+  const loggedIn = true;
+
   return (
     <div className="app">
-      <Header />
-      <Navigation />
       <Switch>
         <Route exact path="/">
-          <Main />
+          <Main loggedIn={loggedIn} />
         </Route>
         <Route path="/movies">
           <Movies />
@@ -36,7 +34,6 @@ function App() {
           <Register />
         </Route>
       </Switch>
-      <Footer />
     </div>
   );
 }
