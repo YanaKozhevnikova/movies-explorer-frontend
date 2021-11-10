@@ -3,6 +3,7 @@
     margin: 0 auto;
     padding-left: 70px;
     padding-right: 70px;
+    box-sizing: border-box;
 }
 
 .main__section-heading {

@@ -1,0 +1,202 @@
+.search {
+    padding-top: 70px;
+    padding-bottom: 10px;
+}
+
+.search__form {
+    background-color: #F9F9F9;
+    padding: 16px 30px 16px 19px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+}
+
+.search__input-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-right: 30px;
+    box-sizing: border-box;
+}
+
+.search__text-field {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.search__icon {
+    margin: 6px 16px 6px 6px;
+    height: 22px;
+    min-width: 22px;
+}
+
+.search__input {
+    background-color: #F9F9F9;
+    border: none;
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 20px;
+    outline: none;
+    box-sizing: border-box;
+    padding: 0 0 1px;
+    width: 100%;
+}
+
+.search__input::placeholder {
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 20px;
+    color: #A0A0A0;
+}
+
+.search__input:focus {
+    background-color: #F9F9F9;
+    border-bottom: 1px solid #A0A0A0;
+    padding-bottom: 0;
+}
+
+.search__button {
+    background-color: #000;
+    border-radius: 48px;
+    min-width: 80px;
+    height: 34px;
+    background-image: url('../../images/search-white.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    transition: opacity .3s linear;
+}
+
+.search__button:hover {
+    opacity: .7;
+}
+
+.search__button:focus {
+    opacity: .7;
+}
+
+.search__checkbox-container {
+    padding-left: 29px;
+    border-left: 1px solid #E8E8E8;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.search__checkbox-label {
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.search__hidden-checkbox {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+}
+
+.search__visible-checkbox {
+    display: block;
+    background-image: url('../../images/tumbler-inactive.svg');
+    background-repeat: no-repeat;
+    width: 36px;
+    height: 20px;
+    margin-right: 14px;
+}
+
+.search__hidden-checkbox:checked + .search__visible-checkbox {
+    background-image: url('../../images/tumbler-active.svg');
+}
+
+.search__checkbox-text {
+    margin: 0;
+}
+
+.search__border {
+    width: 100%;
+    border-bottom: 1px solid #E8E8E8;
+    margin-top: 69px;
+}
+
+@media screen and (max-width: 950px) {
+    .search {
+        padding-top: 80px;
+    }
+
+    .search__border {
+        margin-top: 109px;
+    }
+    
+    .search__form {
+        padding-right: 20px;
+    }
+    
+    .search__input-container {
+        padding-right: 19px;
+    }
+    
+    .search__checkbox-container {
+        padding-left: 19px;    
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .search__border {
+        margin-top: 45px;
+    }
+    
+    .search__form {
+        background-color: transparent;
+        padding: 0;
+        border-radius: 0;
+        flex-direction: column;
+    }
+    
+    .search__input-container {
+        background: #F9F9F9;
+        border-radius: 9px;
+        padding: 19px;
+    }
+
+    .search__icon {
+        display: none;
+    }
+    
+    .search__input {
+        font-size: 14px;
+        line-height: 20px;
+    }
+    
+    .search__input::placeholder {
+        font-size: 14px;
+        line-height: 20px;
+    }
+    
+    .search__checkbox-container {
+        padding-left: 0;
+        border-left: none;
+        height: auto;
+        margin-top: 45px;
+    }
+    
+    .search__checkbox-label {
+        font-size: 11px;
+    }
+}

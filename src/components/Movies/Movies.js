@@ -1,6 +1,15 @@
+import './Movies.css';
+import SearchForm from '../SearchForm/SearchForm';
+import MoviesCardList from '../MoviesCardList/MoviesCardList';
+import movies from '../../utils/movies';
+
+
 function Movies() {
     return (
-        <section></section>
+        <section className="movies">
+            <SearchForm />
+            <MoviesCardList movies={movies} />
+        </section>
     );
 }
 

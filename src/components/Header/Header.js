@@ -27,7 +27,7 @@ function Header({loggedIn}) {
                 {loggedIn && (
                     <button type="button" onClick={handleOpenNavigation} className="header__burger-logo" aria-label="Меню"></button>
                 )}
-                <Navigation loggedIn={loggedIn} isOpen={isNavigationOpen} onCloseClick={handleCloseNavigation} />
+                <Navigation loggedIn={loggedIn} isOpen={isNavigationOpen} handleClose={handleCloseNavigation} />
             </div>
         </header>
     );

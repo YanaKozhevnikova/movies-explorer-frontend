@@ -99,6 +99,7 @@
 @media screen and (max-width: 950px) {
     .navigation_burger {
         display: none;
+        z-index: 100;
     }
 
     .navigation_opened {

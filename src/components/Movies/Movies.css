@@ -1,0 +1,21 @@
+.movies__section {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding-left: 70px;
+    padding-right: 70px;
+    box-sizing: border-box;
+}
+
+@media screen and (max-width: 950px) {
+    .movies__section {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .movies__section {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
