@@ -145,6 +145,11 @@
         font-size: 12px;
         line-height: 15px;
     }
+
+    .movie-card__button {
+        visibility: visible;
+        opacity: 1;
+    }
 }
 
 @media screen and (max-width: 400px) {
