@@ -8,7 +8,7 @@ function MoviesCardList({movies, onCardDelete}) {
     const location = useLocation();
     if (movies.length === 0) {
         return (
-            <div className="movies__section movies-list movies-list_no-movies">{location.pathname === '/movies' ? 'Начните искать фильмы!' : 'Вы еще ничего не сохранили'}</div>
+            <div className="movies__section movies-list movies-list_no-movies">{location.pathname === '/movies' ? 'Ничего не найдено' : 'Вы еще ничего не сохранили'}</div>
         )
     } else {
         return (

@@ -28,10 +28,10 @@
 .portfolio__item:first-of-type {
     margin-top: 0;
 }
+
 .portfolio__item:last-of-type {
     border-bottom: none;
     padding-bottom: 0;
-
 }
 
 .portfolio__link-text {
@@ -51,7 +51,7 @@
 }
 
 .portfolio__link-text:hover {
-    opacity: .5;
+    opacity: .7;
 }
 
 .portfolio__link-icon {

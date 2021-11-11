@@ -21,7 +21,7 @@
 }
 
 .more-movies__button:hover {
-    opacity: .7;
+    opacity: .8;
 }
 
 @media screen and (max-width: 600px) {

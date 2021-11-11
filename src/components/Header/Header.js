@@ -21,8 +21,8 @@ function Header({loggedIn}) {
     return (
         <header className={headerClassName}>
             <div className="header__container">
-                <Link to='/'>
-                    <img src={logoPath} alt="Логотип" className="header__logo" />
+                <Link to='/' className="header__logo">
+                    <img src={logoPath} alt="Логотип" />
                 </Link>
                 {loggedIn && (
                     <button type="button" onClick={handleOpenNavigation} className="header__burger-logo" aria-label="Меню"></button>

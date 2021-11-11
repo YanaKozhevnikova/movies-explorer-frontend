@@ -1,6 +1,14 @@
-function Register() {
+import AuthForm from '../AuthForm/AuthForm';
+function Register({onRegister}) {
     return (
-        <section></section>
+        <AuthForm
+            heading='Добро пожаловать!'
+            buttonText='Зарегистрироваться'
+            redirectText='Уже зарегистрированы?'
+            linkText='Войти'
+            linkPath='/signin'
+            onButtonClick={onRegister}
+        />
     );
 }
 

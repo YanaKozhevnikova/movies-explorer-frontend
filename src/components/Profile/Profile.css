@@ -1,0 +1,130 @@
+.profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 74px;
+    padding-bottom: 68px;
+    box-sizing: border-box;
+}
+
+.profile__heading {
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    margin: 0;
+}
+
+.profile__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 107px;
+    width: 410px;
+}
+
+.profile__label {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #E8E8E8;
+    padding-top: 17px;
+    padding-bottom: 16px;
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 13px;
+    color: #000000;
+}
+
+.profile__label:first-of-type {
+    border-top: 0;
+}
+
+.profile__input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    text-align: right;
+    width: 80%;
+    font-weight: 400;
+    padding: 1px 0;
+    box-sizing: border-box;
+}
+
+.profile__input:disabled {
+    color: #000;
+}
+
+.profile__input:focus {
+    border-bottom: 1px solid #000;
+    padding-bottom: 0;
+}
+
+
+.profile__button {
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-size: 13px;
+    line-height: 16px;
+    background-color: transparent;
+    padding: 2px 5px;
+    border: none;
+    cursor: pointer;
+    transition: opacity .3s linear;
+}
+
+.profile__button:hover {
+    opacity: .8;
+}
+
+.profile__button_type_edit {
+    font-weight: normal;
+    margin-top: 201px;
+}
+
+.profile__button_type_exit {
+    margin-top: 12px;
+    font-weight: 500;
+    color: #FF4062;
+    outline-color: #FF4062;
+}
+
+@media screen and (max-width: 950px) {
+    .profile {
+        padding-top: 236px;
+        padding-bottom: 267px;
+        height: auto;
+    }
+    
+    .profile__form {
+        margin-top: 79px;
+    }
+
+    .profile__button_type_edit {
+        margin-top: 191px;
+    }    
+}
+
+@media screen and (max-width: 600px) {
+    .profile {
+        padding: 70px 30px 38px;
+    }
+    
+    .profile__form {
+        margin-top: 63px;
+        width: 100%;
+    }
+
+    .profile__button_type_edit {
+        margin-top: 360px;
+    }    
+
+    .profile__button {
+        font-size: 12px;
+        line-height: 15px;
+    }
+}

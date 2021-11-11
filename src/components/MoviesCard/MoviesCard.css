@@ -84,7 +84,7 @@
 
 .movie-card__button:hover {
     visibility: visible;
-    opacity: .7;
+    opacity: .8;
 }
 
 .movie-card__button_active {

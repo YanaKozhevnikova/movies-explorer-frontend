@@ -28,7 +28,7 @@
 }
 
 .navigation__link:hover {
-    opacity: .5;
+    opacity: .7;
 }
 
 .navigation__link_active {
@@ -57,7 +57,7 @@
 }
 
 .navigation__profile:hover {
-    opacity: .5;
+    opacity: .7;
 }
 
 .navigation__profile-text {
@@ -81,6 +81,11 @@
     font-weight: 500;
     font-size: 12px;
     line-height: 16px;
+    transition: opacity .3s linear;
+}
+
+.navigation__signup:hover {
+    opacity: .7;
 }
 
 .navigation__signin {
@@ -94,6 +99,11 @@
     padding: 8px 20px;
     color: #fff;
     margin-left: 30px;
+    transition: opacity .3s linear;
+}
+
+.navigation__signin:hover {
+    opacity: .7;
 }
 
 @media screen and (max-width: 950px) {
@@ -114,6 +124,7 @@
 
     .navigation__container_burger {
         width: 70%;
+        max-width: 520px;
         background-color: #fff;
         position: absolute;
         right: 0;
@@ -145,7 +156,7 @@
     }
   
     .navigation__close-button:hover {
-        opacity: .5;
+        opacity: .8;
     }
 
     .navigation__links {
@@ -156,14 +167,17 @@
     }
 
     .navigation__link {
-        margin-bottom: 28px;
+        margin-right: 0;
+        margin-bottom: 22px;
         font-weight: 500;
         font-size: 18px;
         line-height: 22px;
+        padding-bottom: 6px;
     }
 
     .navigation__link_active {
         border-bottom: solid #000 2px;
+        padding-bottom: 4px;
     }
 
     .navigation__link_to_main {
@@ -193,5 +207,14 @@
         line-height: 16px;
         padding: 5px 12px;
         margin-left: 14px;
+    }
+    
+    .navigation__link {
+        margin-bottom: 15px;
+        padding-bottom: 9px;
+    }
+        
+    .navigation__link_active {
+        padding-bottom: 7px;
     }
 }

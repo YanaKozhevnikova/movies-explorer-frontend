@@ -78,11 +78,11 @@
 }
 
 .search__button:hover {
-    opacity: .7;
+    opacity: .8;
 }
 
 .search__button:focus {
-    opacity: .7;
+    opacity: .8;
 }
 
 .search__checkbox-container {
@@ -125,8 +125,14 @@
     background-image: url('../../images/tumbler-active.svg');
 }
 
+.search__hidden-checkbox:focus ~ .search__checkbox-text {
+    border-bottom: 1px #000 solid;
+    padding-bottom: 0;
+}
+
 .search__checkbox-text {
     margin: 0;
+    padding: 1px 0;
 }
 
 .search__border {

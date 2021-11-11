@@ -1,6 +1,5 @@
 import React from 'react';
-import { Route, Switch, useLocation } from 'react-router-dom';
-import './App.css';
+import { Route, Switch, useLocation, useHistory } from 'react-router-dom';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
@@ -9,42 +8,56 @@ import Profile from '../Profile/Profile';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
 import Footer from '../Footer/Footer';
+import PageNotFound from '../PageNotFound/PageNotFound';
 
 function App() {
-  // const [loggedIn, setLoggedIn] = React.useState(true);
-  const location = useLocation();
-  const loggedIn = true;
+    const location = useLocation();
+    const history = useHistory();
+    const [loggedIn, setLoggeedIn] = React.useState(true);
 
-  return (
-    <div className="app">
-      {(location.pathname === '/' || location.pathname === '/movies' || location.pathname === '/saved-movies') && 
-        (<Header loggedIn={loggedIn} />)
-      }
-      <Switch>
-        <Route exact path="/">
-          <Main />
-        </Route>
-        <Route path="/movies">
-          <Movies />
-        </Route>
-        <Route path="/saved-movies">
-          <SavedMovies />
-        </Route>
-        <Route path="/profile">
-          <Profile />
-        </Route>
-        <Route path="/signin">
-          <Login />
-        </Route>
-        <Route path="/signup">
-          <Register />
-        </Route>
-      </Switch>
-      {(location.pathname === '/' || location.pathname === '/movies' || location.pathname === '/saved-movies') && 
-        (<Footer />)
-      }
-    </div>
-  );
+    function handleSignOut() {
+        setLoggeedIn(false);
+        history.push('/signin');
+    }
+
+    function handleLogin() {
+        setLoggeedIn(true);
+        history.push('/movies');
+    }
+
+    return (
+        <>
+            {(location.pathname === '/' || location.pathname === '/movies' || location.pathname === '/saved-movies' || location.pathname === '/profile') && 
+                (<Header loggedIn={loggedIn} />)
+            }
+            <Switch>
+                <Route exact path="/">
+                <Main />
+                </Route>
+                <Route path="/movies">
+                <Movies />
+                </Route>
+                <Route path="/saved-movies">
+                <SavedMovies />
+                </Route>
+                <Route path="/profile">
+                <Profile onSignOut={handleSignOut} />
+                </Route>
+                <Route path="/signin">
+                <Login onLogin={handleLogin} />
+                </Route>
+                <Route path="/signup">
+                <Register onRegister={handleLogin} />
+                </Route>
+                <Route path="*">
+                <PageNotFound />
+                </Route>
+            </Switch>
+            {(location.pathname === '/' || location.pathname === '/movies' || location.pathname === '/saved-movies') && 
+                (<Footer />)
+            }
+        </>
+    );
 }
 
 export default App;

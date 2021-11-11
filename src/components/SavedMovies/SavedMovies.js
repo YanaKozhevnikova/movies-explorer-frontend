@@ -1,5 +1,4 @@
 import React from 'react';
-import './SavedMovies.css';
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import savedMovies from '../../utils/savedMovies';
@@ -13,10 +12,10 @@ function SavedMovies() {
   }
 
   return (
-        <section className="movies">
+        <main className="movies">
             <SearchForm />
             <MoviesCardList movies={cards} onCardDelete={handleDeleteCard} />
-        </section>
+        </main>
     );
 }
 
