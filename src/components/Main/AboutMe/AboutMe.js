@@ -15,7 +15,7 @@ function AboutMe() {
                         <a className="about-me__link" href="https://github.com/YanaKozhevnikova" target="_blank" rel="noreferrer">Github</a>
                     </div>
                 </div>
-                <img className="about-me__image" src={profilePicturePath} alt="Студент"></img>
+                <img className="about-me__image" src={profilePicturePath} alt="Студент" />
             </div>
         </section>
     );
