@@ -3,9 +3,11 @@ import { Link, useLocation } from 'react-router-dom';
 import Navigation from '../Navigation/Navigation';
 import './Header.css';
 import logoPath from '../../images/logo.svg';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
-function Header({loggedIn}) {
+function Header() {
     const location = useLocation();
+    const context = React.useContext(CurrentUserContext);
     const [isNavigationOpen, setIsNavigationOpen] = React.useState(false);
 
     function handleOpenNavigation() {
@@ -24,10 +26,10 @@ function Header({loggedIn}) {
                 <Link to='/' className="header__logo">
                     <img src={logoPath} alt="Логотип" />
                 </Link>
-                {loggedIn && (
+                {context.loggedIn && (
                     <button type="button" onClick={handleOpenNavigation} className="header__burger-logo" aria-label="Меню"></button>
                 )}
-                <Navigation loggedIn={loggedIn} isOpen={isNavigationOpen} handleClose={handleCloseNavigation} />
+                <Navigation isOpen={isNavigationOpen} handleClose={handleCloseNavigation} />
             </div>
         </header>
     );

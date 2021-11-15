@@ -1,10 +1,10 @@
 import './MoreMovies.css';
 
 
-function MoreMovies() {
+function MoreMovies({onClick}) {
     return (
         <div className="more-movies">
-            <button className="more-movies__button" type="button">Ещё</button>
+            <button onClick={onClick} className="more-movies__button" type="button">Ещё</button>
         </div>
     );
 }

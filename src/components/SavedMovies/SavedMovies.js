@@ -1,20 +1,12 @@
 import React from 'react';
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
-import savedMovies from '../../utils/savedMovies';
 
-
-function SavedMovies() {
-  const [cards, setCards] = React.useState(savedMovies);
-  
-  function handleDeleteCard(card) {
-      setCards((initialCards) => initialCards.filter((c) => c.id !== card.id));
-  }
-
+function SavedMovies({movies, deleteMovie, filterMovies}) {
   return (
         <main className="movies">
-            <SearchForm />
-            <MoviesCardList movies={cards} onCardDelete={handleDeleteCard} />
+            <SearchForm onSearch={filterMovies} />
+            <MoviesCardList movies={movies} deleteMovie={deleteMovie}  />
         </main>
     );
 }

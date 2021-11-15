@@ -9,6 +9,7 @@
     border-radius: 9px;
     display: flex;
     align-items: center;
+    flex-wrap: nowrap;
 }
 
 .search__input-container {
@@ -59,6 +60,15 @@
     background-color: #F9F9F9;
     border-bottom: 1px solid #A0A0A0;
     padding-bottom: 0;
+}
+
+.search__input_error::placeholder {
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 15px;
+    color: #FF4062;
 }
 
 .search__button {
@@ -157,6 +167,11 @@
     .search__input-container {
         padding-right: 19px;
     }
+
+    .search__input_error::placeholder {
+        font-size: 10px;
+        line-height: 12px;
+    }
     
     .search__checkbox-container {
         padding-left: 19px;    
@@ -193,6 +208,11 @@
     .search__input::placeholder {
         font-size: 14px;
         line-height: 20px;
+    }
+
+    .search__input_error::placeholder {
+        font-size: 10px;
+        line-height: 12px;
     }
     
     .search__checkbox-container {
