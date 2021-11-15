@@ -3,15 +3,16 @@ import React from 'react';
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import MoreMovies from './MoreMovies/MoreMovies';
-import { INITIAL_CARDS_NUMBER, MORE_CARDS_NUMBER, WINDOW_SIZE } from '../../utils/constants';
+import { INITIAL_CARDS_NUMBER, MORE_CARDS_NUMBER, WINDOW_SIZE, EMPTY_BLOCK_INFO } from '../../utils/constants';
 
 
-function MoviesCardList({movies, saveMovie, deleteMovie}) {
+function MoviesCardList({movies, saveMovie, deleteMovie, isSearched}) {
     const location = useLocation();
     const [cardsNumber, setCardsNumber] = React.useState(0);
     const [nextCardsNumber, setNextCardsNumber] = React.useState(0);
     const [cards, setCards] = React.useState([]);
     const [windowSize, setWindowSize] = React.useState(window.innerWidth);
+    const [emptyBlockInfo, setEmptyBlockInfo] = React.useState('');
 
     function checkWindowSize() {
         setTimeout(() => setWindowSize(window.innerWidth), 1000);
@@ -53,13 +54,25 @@ function MoviesCardList({movies, saveMovie, deleteMovie}) {
         }
     }, [location.pathname, movies, cardsNumber]);
 
+    React.useEffect(() => {
+        if (!isSearched && location.pathname === '/movies') {
+            setEmptyBlockInfo(EMPTY_BLOCK_INFO.movies);
+        } else if (!isSearched && location.pathname === '/saved-movies') {
+            setEmptyBlockInfo(EMPTY_BLOCK_INFO.savedMovies);
+        } else if (isSearched) {
+            setEmptyBlockInfo(EMPTY_BLOCK_INFO.noResult);
+        }
+    }, [isSearched, location.pathname, movies])
+
     function showMoreCards() {
         setCardsNumber(cardsNumber + nextCardsNumber);
     }
 
     if (movies.length === 0) {
         return (
-            <div className="movies__section movies-list movies-list_no-movies">{location.pathname === '/movies' ? 'Ничего не найдено' : 'Вы еще ничего не сохранили'}</div>
+            <div className="movies__section movies-list movies-list_no-movies">
+                {emptyBlockInfo}
+            </div>
         )
     } else {
         return (

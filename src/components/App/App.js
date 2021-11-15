@@ -13,7 +13,7 @@ import Login from '../Login/Login';
 import Register from '../Register/Register';
 import Footer from '../Footer/Footer';
 import PageNotFound from '../PageNotFound/PageNotFound';
-import { filterMovies, setMoviesInfo } from '../../utils/moviesFiltration';
+import { filterMovies, parseMoviesInfo } from '../../utils/moviesFiltration';
 
 
 function App() {
@@ -26,6 +26,8 @@ function App() {
     const [savedMovies, setSavedMovies] = React.useState([]);
     const [savedMoviesFiltered, setSavedMoviesFiltered] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(false);
+    const [areMoviesSearched, setAreMoviesSearched] = React.useState(false);
+    const [areSavedMoviesSearched, setAreSavedMoviesSearched] = React.useState(false);
     
     React.useEffect(() => {
         mainApi.getUserInfo()
@@ -44,16 +46,34 @@ function App() {
 
     React.useEffect(() => {
         if (loggedIn) {
-            mainApi.getUserInfo()
-            .then((userInfo) => {
+            setIsLoading(true)
+            Promise.all([mainApi.getUserInfo(), moviesApi.getMovies(), mainApi.getSavedMovies()])
+            .then(([userInfo, initialMovies, initialSavedMovies]) => {
+                const moviesInfo = parseMoviesInfo(initialMovies);
                 setCurrentUser(userInfo);
+                setMovies(moviesInfo);
+                setSavedMovies(initialSavedMovies);
+                setSavedMoviesFiltered(initialSavedMovies);
+                localStorage.setItem('movies', JSON.stringify(moviesInfo));
+                localStorage.setItem('saved-movies', JSON.stringify(initialSavedMovies));
+
             })
             .catch((err) => {
                 console.log(err)
             })
+            .finally(() => {
+                setIsLoading(false);
+            })
         }
-    }, [loggedIn])
-    
+    }, [loggedIn]);
+
+    React.useEffect(() => {
+        const searchedMovies = JSON.parse(localStorage.getItem('movies-filtered'));
+        if (searchedMovies) {
+            setMoviesFiltered(searchedMovies);
+        }
+    }, []);
+
     function handleRegister(name, email, password) {
         mainApi.register(name, email, password)
         .then(userInfo => {
@@ -109,49 +129,6 @@ function App() {
         })
     }
 
-    React.useEffect(() => {
-        const searchedMovies = JSON.parse(localStorage.getItem('movies-filtered'));
-        if (searchedMovies) {
-            setMoviesFiltered(searchedMovies);
-        }
-    }, []);
-
-    React.useEffect(() => {
-        if(loggedIn) {
-            moviesApi.getMovies()
-            .then(res => {
-                const moviesInfo = setMoviesInfo(res);        
-                setMovies(moviesInfo);
-                localStorage.setItem('movies', JSON.stringify(moviesInfo));
-            })
-            .catch(err => {
-                console.log(err);
-            })    
-        }
-    }, [loggedIn]);
-
-    React.useEffect(() => {
-        if (loggedIn) {
-            mainApi.getSavedMovies()
-            .then((res) => {
-                setSavedMovies(res);
-                setSavedMoviesFiltered(res);
-                localStorage.setItem('saved-movies', JSON.stringify(res));
-            })  
-            .catch(err => {
-                console.log(err);
-            })  
-        }
-    }, [loggedIn]);
-
-    function getMovies(keyword, isShortMovies) {
-        setIsLoading(true);
-        const filteredMovies = filterMovies(movies, keyword, isShortMovies);
-        setMoviesFiltered(filteredMovies);
-        localStorage.setItem('movies-filtered', JSON.stringify(filteredMovies));
-        setIsLoading(false);
-    }
-
     function saveMovie(movie) {
         const movieToSave = movies.find(m => m.movieId.toString() === movie.id);
         if (!savedMovies.some(m => m.movieId === movieToSave.movieId)) {
@@ -175,16 +152,26 @@ function App() {
             setSavedMovies(newSavedMovies);
             setSavedMoviesFiltered(newSavedMovies);
             localStorage.setItem('saved-movies', JSON.stringify(newSavedMovies));
+            if (newSavedMovies.length === 0) {
+                setAreSavedMoviesSearched(false);
+            }
         })
         .catch(err => {
             console.log(err);
         }) 
     }
 
-    function filterSavedMovies(keyword, isShort) {
+    function searchMovies(keyword, isShortMovies) {
+        const filteredMovies = filterMovies(movies, keyword, isShortMovies);
+        setMoviesFiltered(filteredMovies);
+        localStorage.setItem('movies-filtered', JSON.stringify(filteredMovies));
+        setAreMoviesSearched(true);
+    }
+
+    function searchSavedMovies(keyword, isShort) {
         const filteredSavedMovies = filterMovies(savedMovies, keyword, isShort);
         setSavedMoviesFiltered(filteredSavedMovies);
-        localStorage.setItem('saved-movies-filtered', JSON.stringify(filteredSavedMovies));
+        setAreSavedMoviesSearched(true);
     }
 
     return (
@@ -199,24 +186,28 @@ function App() {
                 <ProtectedRoute
                     path="/movies"
                     component={Movies}
-                    getMovies={getMovies}
+                    searchMovies={searchMovies}
                     saveMovie={saveMovie}
                     deleteMovie={deleteMovie}
                     isLoading={isLoading}
                     movies={moviesFiltered}
+                    isSearched={areMoviesSearched}
                 />
                 <ProtectedRoute
                     path="/saved-movies"
                     component={SavedMovies}
                     movies={savedMoviesFiltered}
                     deleteMovie={deleteMovie}
-                    filterMovies={filterSavedMovies}
+                    searchMovies={searchSavedMovies}
+                    isSearched={areSavedMoviesSearched}
+                    isLoading={isLoading}
                 />
                 <ProtectedRoute
                     path="/profile"
                     component={Profile}
                     onUpdateUser={updateUserInfo}
                     onSignOut={handleSignOut}
+                    isLoading={isLoading}
                 />
                 <Route path="/signin">
                     {loggedIn ? (

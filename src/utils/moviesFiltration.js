@@ -20,7 +20,7 @@ export function filterMovies(movies, keyword, isShortMovies) {
     return filteredMovies;
 }
 
-export function setMoviesInfo(movies) {
+export function parseMoviesInfo(movies) {
     const newMoviesArray = movies.map(movie => {
         return {
             country: movie.country || '',

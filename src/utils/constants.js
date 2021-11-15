@@ -24,3 +24,9 @@ export const WINDOW_SIZE = {
     large: 1000,
     small: 600,
 }
+
+export const EMPTY_BLOCK_INFO = {
+    movies: 'Начните поиск фильмов',
+    savedMovies: 'Вы еще ничего не сохранили',
+    noResult: 'Ничего не найдено',
+}

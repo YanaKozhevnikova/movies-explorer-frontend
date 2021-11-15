@@ -5,14 +5,14 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
 
 
-function Movies({getMovies, isLoading, movies, saveMovie, deleteMovie}) {
+function Movies({searchMovies, isLoading, movies, saveMovie, deleteMovie, isSearched}) {
     return (
         <main className="movies">
-            <SearchForm onSearch={getMovies} />
+            <SearchForm onSearch={searchMovies} />
             {isLoading ? (
                 <Preloader />
             ) : (
-                <MoviesCardList saveMovie={saveMovie} deleteMovie={deleteMovie} movies={movies} />
+                <MoviesCardList saveMovie={saveMovie} deleteMovie={deleteMovie} movies={movies} isSearched={isSearched} />
             )}
         </main>
     );
