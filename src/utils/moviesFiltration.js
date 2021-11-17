@@ -2,7 +2,13 @@ import { MOVIES_API_URL } from "./constants";
 export function getDuration(time) {
     const hours = Math.floor(time / 60);
     const minutes = time % 60;
-    return hours !== 0 ? `${hours}ч ${minutes}м` : `${minutes}м`;
+    if (hours === 0) {
+        return `${minutes}м`;
+    } else if (minutes === 0) {
+        return `${hours}ч`;
+    } else {
+        return `${hours}ч ${minutes}м`;
+    }
 }
 
 export function filterMovies(movies, keyword, isShortMovies) {

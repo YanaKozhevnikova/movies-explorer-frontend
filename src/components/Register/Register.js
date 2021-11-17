@@ -1,5 +1,7 @@
+import React from 'react';
 import AuthForm from '../AuthForm/AuthForm';
-function Register({onRegister}) {
+function Register({onRegister, error, isFormLoading}) {
+
     return (
         <AuthForm
             heading='Добро пожаловать!'
@@ -8,6 +10,8 @@ function Register({onRegister}) {
             linkText='Войти'
             linkPath='/signin'
             onButtonClick={onRegister}
+            error={error}
+            isFormLoading={isFormLoading}
         />
     );
 }

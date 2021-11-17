@@ -2,11 +2,11 @@ import React from 'react';
 import './Profile.css';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { useFormWithValidation } from '../../utils/useFormWithValidation';
-import { NAME_PATTERN } from '../../utils/constants';
+import { NAME_PATTERN, INFO_MESSAGES, STATUS_CODES } from '../../utils/constants';
 import Preloader from '../Preloader/Preloader';
 
 
-function Profile({onUpdateUser, onSignOut, isLoading}) {
+function Profile({onUpdateUser, onSignOut, isLoading, isFormLoading, updateStatus}) {
     const context = React.useContext(CurrentUserContext);
     const { values, errors, isValid, handleValuesChange, resetForm } = useFormWithValidation({
         initialValues: {name: context.currentUser.name, email:context.currentUser.email},
@@ -14,6 +14,35 @@ function Profile({onUpdateUser, onSignOut, isLoading}) {
         formSelector: '.profile__form',
     });
     const [isEdit, setIsEdit] = React.useState(false);
+    const [updateText, setUpdateText] = React.useState('');
+    const [isSameData, setIsSameData] = React.useState(true);
+
+    React.useEffect(() => {
+        if (values.name === context.currentUser.name && values.email === context.currentUser.email) {
+            setIsSameData(true);
+        } else {
+            setIsSameData(false);
+        }
+    }, [values, context.currentUser]);
+
+    React.useEffect(() => {
+        if (updateStatus) {
+            if (updateStatus === STATUS_CODES.success) {
+                setUpdateText(INFO_MESSAGES.successfulUpdate);
+                setIsEdit(false);
+                resetForm();
+            } else if (updateStatus === STATUS_CODES.incorrectData) {
+                setUpdateText(INFO_MESSAGES.incorrectData);
+            } else if (updateStatus === STATUS_CODES.emailExistsError) {
+                setUpdateText(INFO_MESSAGES.emailExistsError);
+            } else if (updateStatus === STATUS_CODES.serverError) {
+                setUpdateText(INFO_MESSAGES.serverError);
+            } else {
+                setUpdateText(INFO_MESSAGES.updateUserError);
+            }    
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [updateStatus]);
 
     function enableEdit() {
         setIsEdit(true);
@@ -22,8 +51,6 @@ function Profile({onUpdateUser, onSignOut, isLoading}) {
     function updateUserInfo(e) {
         e.preventDefault();
         onUpdateUser({name: values.name, email: values.email});
-        setIsEdit(false);
-        resetForm();
     }
 
     return (
@@ -48,8 +75,9 @@ function Profile({onUpdateUser, onSignOut, isLoading}) {
                                 <span className="profile__input-error">{errors.email}</span>
                             )}
                         </label>
-                        <button onClick={isEdit ? updateUserInfo : enableEdit} className="profile__button profile__button_type_edit" type="button" disabled={!isValid && isEdit}>{isEdit ? 'Сохранить' : 'Редактировать'}</button>
-                        <button onClick={onSignOut} className="profile__button profile__button_type_exit" type="button">Выйти из аккаунта</button>
+                        {updateStatus !== 0 && <span className="profile__status">{updateText}</span>}
+                        <button onClick={isEdit ? updateUserInfo : enableEdit} className={`profile__button profile__button_type_edit ${updateStatus !== 0 ? 'profile__button_status' : ''}`} type="button" disabled={(!isValid && isEdit) || (isSameData && isEdit) || isFormLoading}>{isEdit ? 'Сохранить' : 'Редактировать'}</button>
+                        <button onClick={onSignOut} className="profile__button profile__button_type_exit" type="button" disabled={isFormLoading}>Выйти из аккаунта</button>
                     </form>
                 </>
             )}

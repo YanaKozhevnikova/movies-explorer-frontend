@@ -5,7 +5,7 @@ import Preloader from '../Preloader/Preloader';
 
 
 function SavedMovies({movies, deleteMovie, searchMovies, isSearched, isLoading}) {
-  return (
+    return (
         <main className="movies">
             <SearchForm onSearch={searchMovies} />
             {isLoading ? (

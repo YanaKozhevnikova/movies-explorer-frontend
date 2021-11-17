@@ -26,9 +26,14 @@ function App() {
     const [savedMovies, setSavedMovies] = React.useState([]);
     const [savedMoviesFiltered, setSavedMoviesFiltered] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(false);
+    const [isFormLoading, setIsFormLoading] = React.useState(false);
     const [areMoviesSearched, setAreMoviesSearched] = React.useState(false);
     const [areSavedMoviesSearched, setAreSavedMoviesSearched] = React.useState(false);
-    
+    const [loginError, setLoginError] = React.useState(0);
+    const [registerError, setRegisterError] = React.useState(0);
+    const [updateUserStatus, setUpdateUserStatus] = React.useState(0);
+
+
     React.useEffect(() => {
         mainApi.getUserInfo()
         .then(userInfo => {
@@ -46,7 +51,9 @@ function App() {
 
     React.useEffect(() => {
         if (loggedIn) {
-            setIsLoading(true)
+            setIsLoading(true);
+            setLoginError(0);
+            setRegisterError(0);
             Promise.all([mainApi.getUserInfo(), moviesApi.getMovies(), mainApi.getSavedMovies()])
             .then(([userInfo, initialMovies, initialSavedMovies]) => {
                 const moviesInfo = parseMoviesInfo(initialMovies);
@@ -54,9 +61,6 @@ function App() {
                 setMovies(moviesInfo);
                 setSavedMovies(initialSavedMovies);
                 setSavedMoviesFiltered(initialSavedMovies);
-                localStorage.setItem('movies', JSON.stringify(moviesInfo));
-                localStorage.setItem('saved-movies', JSON.stringify(initialSavedMovies));
-
             })
             .catch((err) => {
                 console.log(err)
@@ -75,6 +79,7 @@ function App() {
     }, []);
 
     function handleRegister(name, email, password) {
+        setIsFormLoading(true);
         mainApi.register(name, email, password)
         .then(userInfo => {
             if (userInfo) {
@@ -82,24 +87,32 @@ function App() {
                 setCurrentUser(userInfo);
             }
         })
-        .catch((err) => {
-            console.log(err);
+        .catch((errStatus) => {
+            setRegisterError(errStatus);
+        })
+        .finally(() => {
+            setIsFormLoading(false);
         })
     }
 
     function handleLogin(email, password) {
+        setIsFormLoading(true);
         mainApi.login(email, password)
         .then((res) => {
             if (res) {
                 setLoggedIn(true);
             }
         })
-        .catch((err) => {
-            console.log(err);
+        .catch((errStatus) => {
+            setLoginError(errStatus);
+        })
+        .finally(() => {
+            setIsFormLoading(false);
         })
     }
     
     function handleSignOut() {
+        setIsFormLoading(true);
         mainApi.signOut()
         .then((res) => {
             if (res) {
@@ -107,6 +120,10 @@ function App() {
                 setMoviesFiltered([]);
                 setSavedMovies([]);
                 setSavedMoviesFiltered([]);
+                setAreMoviesSearched(false);
+                setAreSavedMoviesSearched(false);
+                setCurrentUser({name: '', email: '', _id: ''});
+                setUpdateUserStatus(0);
                 localStorage.clear();
                 setLoggedIn(false);
                 history.push('/');
@@ -115,17 +132,25 @@ function App() {
         .catch((err) => {
             console.log(err);
         })
+        .finally(() => {
+            setIsFormLoading(false);
+        })
     }
 
     function updateUserInfo(userInfo) {
+        setIsFormLoading(true);
         mainApi.updateUserInfo(userInfo)
         .then(updatedInfo => {
             if (updatedInfo) {
                 setCurrentUser(updatedInfo);
+                setUpdateUserStatus(200);
             }
         })
         .catch((err) => {
-            console.log(err);
+            setUpdateUserStatus(err);
+        })
+        .finally(() => {
+            setIsFormLoading(false);
         })
     }
 
@@ -136,7 +161,6 @@ function App() {
             .then(res => {
                 setSavedMovies([...savedMovies, res]);
                 setSavedMoviesFiltered([...savedMovies, res]);
-                localStorage.setItem('saved-movies', JSON.stringify([...savedMovies, res]));
             })
             .catch(err => {
                 console.log(err);
@@ -151,7 +175,6 @@ function App() {
             const newSavedMovies = savedMovies.filter((m) => m._id !== res._id)
             setSavedMovies(newSavedMovies);
             setSavedMoviesFiltered(newSavedMovies);
-            localStorage.setItem('saved-movies', JSON.stringify(newSavedMovies));
             if (newSavedMovies.length === 0) {
                 setAreSavedMoviesSearched(false);
             }
@@ -208,19 +231,21 @@ function App() {
                     onUpdateUser={updateUserInfo}
                     onSignOut={handleSignOut}
                     isLoading={isLoading}
+                    isFormLoading={isFormLoading}
+                    updateStatus={updateUserStatus}
                 />
                 <Route path="/signin">
                     {loggedIn ? (
                         <Redirect to="/movies" />
                     ) : (
-                        <Login onLogin={handleLogin} />
+                        <Login onLogin={handleLogin} error={loginError} isFormLoading={isFormLoading} />
                     )}
                 </Route>
                 <Route path="/signup">
                     {loggedIn ? (
                         <Redirect to="/movies" />
                     ) : (
-                        <Register onRegister={handleRegister} />
+                        <Register onRegister={handleRegister} error={registerError} isFormLoading={isFormLoading} />
                     )}
                 </Route>
                 <Route path="*">

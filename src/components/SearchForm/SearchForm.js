@@ -5,7 +5,7 @@ import searchIconPath from '../../images/search-grey.svg';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 
-function SearchForm({onSearch}) {
+function SearchForm({onSearch, hasCards}) {
     const location = useLocation();
     const context = React.useContext(CurrentUserContext);
     const [keyword, setKeyword] = React.useState('');
@@ -29,6 +29,9 @@ function SearchForm({onSearch}) {
 
     function handleCheckboxChange(e) {
         setIsShortMovie(!isShortMovie);
+        if (location.pathname === '/saved-movies' || hasCards || keyword) {
+            onSearch(keyword, !isShortMovie);
+        }
     }
 
     return (

@@ -115,6 +115,20 @@
     outline-color: #FF4062;
 }
 
+.profile__button_status {
+    margin-top: 10px;
+}
+
+.profile__status {
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-size: 12px;
+    line-height: 15px;
+    color: #FF4062;
+    text-align: center;
+    margin-top: 176px;
+}
+
 @media screen and (max-width: 950px) {
     .profile {
         padding-top: 236px;
@@ -128,7 +142,15 @@
 
     .profile__button_type_edit {
         margin-top: 191px;
-    }    
+    }   
+    
+    .profile__button_status {
+        margin-top: 10px;
+    }
+
+    .profile__status {
+        margin-top: 166px;
+    }
 }
 
 @media screen and (max-width: 600px) {
@@ -141,12 +163,24 @@
         width: 100%;
     }
 
-    .profile__button_type_edit {
-        margin-top: 360px;
-    }    
-
     .profile__button {
         font-size: 12px;
         line-height: 15px;
     }
+
+    .profile__button_type_edit {
+        margin-top: 360px;
+    }
+    
+    .profile__button_status {
+        margin-top: 10px;
+    }
+
+    .profile__status {
+        margin-top: 338px;
+        font-size: 10px;
+        line-height: 12px;
+    }
+
+
 }

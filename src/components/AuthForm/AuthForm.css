@@ -108,6 +108,25 @@
     cursor: default;
 }
 
+.auth__button_error {
+    margin-top: 10px;
+}
+
+.auth__error {
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 15px;
+    color: #FF4062;
+    text-align: center;
+    margin-top: 44px;
+}
+
+.auth__error_signin {
+    margin-top: 134px;
+}
+
 .auth__text {
     margin: 16px 0 0;
     align-self: center;
@@ -162,6 +181,21 @@
     
     .auth__button_signin {
         margin-top: 247px;
+    }
+
+    .auth__button_error {
+        margin-top: 10px;
+    }
+    
+    .auth__error {
+        font-size: 10px;
+        line-height: 12px;
+        margin-top: 135px;
+    }
+
+    
+    .auth__error_signin {
+        margin-top: 225px;
     }
     
     .auth__text {
