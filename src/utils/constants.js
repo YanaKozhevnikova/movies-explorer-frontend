@@ -10,7 +10,8 @@ export const INFO_MESSAGES = {
     loginError: "При авторизации произошла ошибка.",
     serverError: "500 На сервере произошла ошибка.",
     updateUserError: "При обновлении профиля произошла ошибка.",
-    successfulUpdate: "Данные успешно сохранены."
+    successfulUpdate: "Данные успешно сохранены.",
+    tokenError: 'При авторизации произошла ошибка. Токен не передан или передан не в том формате.'
 }
 
 export const STATUS_CODES = {

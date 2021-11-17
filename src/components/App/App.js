@@ -14,6 +14,7 @@ import Register from '../Register/Register';
 import Footer from '../Footer/Footer';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import { filterMovies, parseMoviesInfo } from '../../utils/moviesFiltration';
+import { INFO_MESSAGES, STATUS_CODES } from '../../utils/constants';
 
 
 function App() {
@@ -29,19 +30,51 @@ function App() {
     const [isFormLoading, setIsFormLoading] = React.useState(false);
     const [areMoviesSearched, setAreMoviesSearched] = React.useState(false);
     const [areSavedMoviesSearched, setAreSavedMoviesSearched] = React.useState(false);
-    const [loginError, setLoginError] = React.useState(0);
-    const [registerError, setRegisterError] = React.useState(0);
-    const [updateUserStatus, setUpdateUserStatus] = React.useState(0);
+    const [infoText, setInfoText] = React.useState('');
 
-
-    React.useEffect(() => {
-        mainApi.getUserInfo()
+    function checkToken() {
+        return mainApi.getUserInfo()
         .then(userInfo => {
             if (userInfo) {
                 setLoggedIn(true);
                 setCurrentUser(userInfo);
-                history.push(location.pathname);
             }
+        })
+    }
+
+    function getInfoMessage(status) {
+        if (status) {
+            if (status === STATUS_CODES.incorrectData) {
+                setInfoText(INFO_MESSAGES.incorrectData);
+            } else if (status === STATUS_CODES.incorrectAuth) {
+                setInfoText(INFO_MESSAGES.incorrectAuth);
+            } else if (status === STATUS_CODES.emailExistsError) {
+                setInfoText(INFO_MESSAGES.emailExistsError);
+            } else if (status === STATUS_CODES.serverError) {
+                setInfoText(INFO_MESSAGES.serverError);
+            } else if (status === STATUS_CODES.success && location.pathname === '/profile') {
+                setInfoText(INFO_MESSAGES.successfulUpdate);
+            } else {
+                if (location.pathname === '/register') {
+                    setInfoText(INFO_MESSAGES.registrationError)
+                } else if (location.pathname === '/login') {
+                    setInfoText(INFO_MESSAGES.loginError)
+                } else if (location.pathname === '/profile') {
+                    setInfoText(INFO_MESSAGES.updateUserError);
+                }
+            }    
+        }
+    }
+
+    React.useEffect(() => {
+        setInfoText('');
+    }, [location.pathname])
+
+    
+    React.useEffect(() => {
+        checkToken()
+        .then(() => {
+            history.push(location.pathname);
         })
         .catch((err) => {
             console.log(err);
@@ -52,8 +85,6 @@ function App() {
     React.useEffect(() => {
         if (loggedIn) {
             setIsLoading(true);
-            setLoginError(0);
-            setRegisterError(0);
             Promise.all([mainApi.getUserInfo(), moviesApi.getMovies(), mainApi.getSavedMovies()])
             .then(([userInfo, initialMovies, initialSavedMovies]) => {
                 const moviesInfo = parseMoviesInfo(initialMovies);
@@ -83,12 +114,17 @@ function App() {
         mainApi.register(name, email, password)
         .then(userInfo => {
             if (userInfo) {
-                setLoggedIn(true);
-                setCurrentUser(userInfo);
+                checkToken()
+                .then(() => {
+                    history.push('/movies');
+                })
+                .catch(() => {
+                    setInfoText(INFO_MESSAGES.tokenError);
+                })
             }
         })
         .catch((errStatus) => {
-            setRegisterError(errStatus);
+            getInfoMessage(errStatus);
         })
         .finally(() => {
             setIsFormLoading(false);
@@ -100,11 +136,17 @@ function App() {
         mainApi.login(email, password)
         .then((res) => {
             if (res) {
-                setLoggedIn(true);
+                checkToken()
+                .then(() => {
+                    history.push('/movies');
+                })
+                .catch(() => {
+                    setInfoText(INFO_MESSAGES.tokenError);
+                })
             }
         })
         .catch((errStatus) => {
-            setLoginError(errStatus);
+            getInfoMessage(errStatus);
         })
         .finally(() => {
             setIsFormLoading(false);
@@ -123,7 +165,6 @@ function App() {
                 setAreMoviesSearched(false);
                 setAreSavedMoviesSearched(false);
                 setCurrentUser({name: '', email: '', _id: ''});
-                setUpdateUserStatus(0);
                 localStorage.clear();
                 setLoggedIn(false);
                 history.push('/');
@@ -143,11 +184,11 @@ function App() {
         .then(updatedInfo => {
             if (updatedInfo) {
                 setCurrentUser(updatedInfo);
-                setUpdateUserStatus(200);
+                getInfoMessage(200);
             }
         })
         .catch((err) => {
-            setUpdateUserStatus(err);
+            getInfoMessage(err);
         })
         .finally(() => {
             setIsFormLoading(false);
@@ -232,20 +273,21 @@ function App() {
                     onSignOut={handleSignOut}
                     isLoading={isLoading}
                     isFormLoading={isFormLoading}
-                    updateStatus={updateUserStatus}
+                    updateMessage={infoText}
+                    setUpdateMessage={setInfoText}
                 />
                 <Route path="/signin">
                     {loggedIn ? (
                         <Redirect to="/movies" />
                     ) : (
-                        <Login onLogin={handleLogin} error={loginError} isFormLoading={isFormLoading} />
+                        <Login onLogin={handleLogin} error={infoText} isFormLoading={isFormLoading} />
                     )}
                 </Route>
                 <Route path="/signup">
                     {loggedIn ? (
                         <Redirect to="/movies" />
                     ) : (
-                        <Register onRegister={handleRegister} error={registerError} isFormLoading={isFormLoading} />
+                        <Register onRegister={handleRegister} error={infoText} isFormLoading={isFormLoading} />
                     )}
                 </Route>
                 <Route path="*">

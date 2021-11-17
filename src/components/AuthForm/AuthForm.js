@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import './AuthForm.css';
 import logoPath from '../../images/logo.svg';
 import { useFormWithValidation } from '../../utils/useFormWithValidation';
-import { NAME_PATTERN, INFO_MESSAGES, STATUS_CODES } from '../../utils/constants';
+import { NAME_PATTERN } from '../../utils/constants';
 
 
 function AuthForm({heading, buttonText, redirectText, linkText, linkPath, onButtonClick, error, isFormLoading}) {
@@ -14,22 +14,6 @@ function AuthForm({heading, buttonText, redirectText, linkText, linkPath, onButt
         initialErrors: {name: '', email: '', password: ''},
         formSelector: '.auth__form',
     })
-    const [errorText, setErrorText] = React.useState('');
-    React.useEffect(() => {
-        if (error) {
-            if (error === STATUS_CODES.incorrectData) {
-                setErrorText(INFO_MESSAGES.incorrectData);
-            } else if (error === STATUS_CODES.incorrectAuth) {
-                setErrorText(INFO_MESSAGES.incorrectAuth);
-            } else if (error === STATUS_CODES.emailExistsError) {
-                setErrorText(INFO_MESSAGES.emailExistsError);
-            } else if (error === STATUS_CODES.serverError) {
-                setErrorText(INFO_MESSAGES.serverError);
-            } else {
-                location.pathname === '/register' ? setErrorText(INFO_MESSAGES.registrationError) : setErrorText(INFO_MESSAGES.loginError);
-            }    
-        }
-    }, [error, location.pathname])
 
     function handleRegister(e) {
         e.preventDefault();
@@ -68,7 +52,7 @@ function AuthForm({heading, buttonText, redirectText, linkText, linkPath, onButt
                 {errors.password && (
                     <span className="auth__input-error">{errors.password}</span>
                 )}
-                {errorText && <span className={`auth__error ${location.pathname === '/signin' ? 'auth__error_signin' : ''}`}>{errorText}</span>}
+                {error && <span className={`auth__error ${location.pathname === '/signin' ? 'auth__error_signin' : ''}`}>{error}</span>}
                 <button className={buttonClassName} type="submit" disabled={!isValid || isFormLoading}>{buttonText}</button>
             </form>
             <p className="auth__text">{redirectText}<Link to={linkPath} className="auth__link">{linkText}</Link></p>
