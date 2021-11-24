@@ -52,7 +52,7 @@ function Profile({onUpdateUser, onSignOut, isLoading, isFormLoading, updateMessa
                     <form className="profile__form" name="profile" onSubmit={updateUserInfo}>
                         <label className={`profile__label ${errors.name ? 'profile__label_error' : ''}`}>
                             Имя
-                            <input type="text" className={`profile__input ${errors.name ? 'profile__input_error' : ''}`} name="name" value={values.name} minLength="2" pattern={NAME_PATTERN} required onChange={handleValuesChange} disabled={!isEdit} placeholder="Имя" />
+                            <input type="text" className={`profile__input ${errors.name ? 'profile__input_error' : ''}`} name="name" value={values.name} minLength="2" maxLength="30" pattern={NAME_PATTERN} required onChange={handleValuesChange} disabled={!isEdit} placeholder="Имя" />
                             {errors.name && (
                                 <span className="profile__input-error">{errors.name}</span>
                             )}

@@ -6,6 +6,7 @@ export const INFO_MESSAGES = {
     emailExistsError: "Пользователь с таким email уже существует.",
     incorrectAuth: "Вы ввели неправильный логин или пароль.",
     incorrectData: "Вы заполнили поля формы в неверном формате.",
+    incorrectEmailFormat: 'Email введен в неверном формате',
     registrationError: "При регистрации пользователя произошла ошибка.",
     loginError: "При авторизации произошла ошибка.",
     serverError: "500 На сервере произошла ошибка.",
@@ -44,3 +45,5 @@ export const EMPTY_BLOCK_INFO = {
     savedMovies: 'Вы еще ничего не сохранили',
     noResult: 'Ничего не найдено',
 }
+
+export const SHORT_FILM_DURATION = 40;

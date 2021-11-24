@@ -35,7 +35,7 @@ function AuthForm({heading, buttonText, redirectText, linkText, linkPath, onButt
                 {location.pathname === '/signup' && (
                     <>
                         <label className="auth__label" htmlFor="name">Имя</label>
-                        <input className={`auth__input ${errors.name ? 'auth__input_error' : ''}`} type="text" minLength="2" pattern={NAME_PATTERN} id="name" name="name" value={values.name} onChange={handleValuesChange} required />
+                        <input className={`auth__input ${errors.name ? 'auth__input_error' : ''}`} type="text" minLength="2" maxLength="30" pattern={NAME_PATTERN} id="name" name="name" value={values.name} onChange={handleValuesChange} required />
                         {errors.name && (
                             <span className="auth__input-error">{errors.name}</span>
                         )}

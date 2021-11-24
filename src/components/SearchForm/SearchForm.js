@@ -27,7 +27,7 @@ function SearchForm({onSearch, hasCards}) {
         }
     }
 
-    function handleCheckboxChange(e) {
+    function handleCheckboxChange() {
         setIsShortMovie(!isShortMovie);
         if (location.pathname === '/saved-movies' || hasCards || keyword) {
             onSearch(keyword, !isShortMovie);

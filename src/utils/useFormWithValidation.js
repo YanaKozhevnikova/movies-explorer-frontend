@@ -1,4 +1,7 @@
 import React from "react";
+import validator from 'validator';
+import { INFO_MESSAGES } from "./constants";
+
 
 export function useFormWithValidation({initialValues, initialErrors, formSelector}) {
     const [values, setValues] = React.useState(initialValues);
@@ -7,6 +10,13 @@ export function useFormWithValidation({initialValues, initialErrors, formSelecto
 
     function handleValuesChange(e) {
         setValues({...values, [e.target.name]: e.target.value});
+        if (e.target.name === 'email') {
+            if (!validator.isEmail(e.target.value)) {
+                e.target.setCustomValidity(INFO_MESSAGES.incorrectEmailFormat);
+            } else {
+                e.target.setCustomValidity('');
+            }
+        }
         setErrors({...errors, [e.target.name]: e.target.validationMessage});
         setIsValid(e.target.closest(formSelector).checkValidity());
     }
@@ -15,5 +25,5 @@ export function useFormWithValidation({initialValues, initialErrors, formSelecto
         setIsValid(false);
     }
 
-    return {values, errors, isValid, handleValuesChange, resetForm}
+    return {values, errors, setErrors, isValid, handleValuesChange, resetForm}
 }

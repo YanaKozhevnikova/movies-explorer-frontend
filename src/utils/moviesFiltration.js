@@ -1,4 +1,4 @@
-import { MOVIES_API_URL } from "./constants";
+import { MOVIES_API_URL, SHORT_FILM_DURATION } from "./constants";
 export function getDuration(time) {
     const hours = Math.floor(time / 60);
     const minutes = time % 60;
@@ -14,7 +14,7 @@ export function getDuration(time) {
 export function filterMovies(movies, keyword, isShortMovies) {
     const string = keyword.toLowerCase();
     const filteredMovies = movies.filter(movie => {
-        const isShort = movie.duration <= 40;
+        const isShort = movie.duration <= SHORT_FILM_DURATION;
         const hasKeyword = (movie.nameRU && movie.nameRU.toLowerCase().includes(string)) ||
         (movie.nameEN && movie.nameEN.toLowerCase().includes(string)) ||
         (movie.director && movie.director.toLowerCase().includes(string)) ||
@@ -29,8 +29,8 @@ export function filterMovies(movies, keyword, isShortMovies) {
 export function parseMoviesInfo(movies) {
     const newMoviesArray = movies.map(movie => {
         return {
-            country: movie.country || '',
-            director: movie.director || '',
+            country: movie.country || 'страна не указана',
+            director: movie.director || 'режиссер не указан',
             duration: movie.duration,
             year: movie.year,
             description: movie.description,
@@ -39,7 +39,7 @@ export function parseMoviesInfo(movies) {
             thumbnail: `${MOVIES_API_URL}${movie.image.formats.thumbnail.url}`,
             movieId: movie.id,
             nameRU: movie.nameRU,
-            nameEN: movie.nameEN || '',
+            nameEN: movie.nameEN || 'название на английском не указано',
         }
     })
     return newMoviesArray;
