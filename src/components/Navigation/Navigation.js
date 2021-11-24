@@ -1,12 +1,15 @@
+import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import './Navigation.css'
+import './Navigation.css';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
-function Navigation({loggedIn, isOpen, handleClose}) {
+function Navigation({isOpen, handleClose}) {
+    const context = React.useContext(CurrentUserContext);
     const burgerNavigationClass = `navigation navigation_burger ${isOpen ? 'navigation_opened' : ''}`;
 
     return (
         <>
-            {loggedIn ? (
+            {context.loggedIn ? (
                 <nav className={burgerNavigationClass}>
                     <div className="navigation__container navigation__container_burger">
                         <button onClick={handleClose} className="navigation__close-button" type="button" aria-label="Закрыть"></button>

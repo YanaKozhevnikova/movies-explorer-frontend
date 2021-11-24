@@ -27,6 +27,7 @@
 .profile__label {
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     border-top: 1px solid #E8E8E8;
@@ -38,6 +39,10 @@
     font-size: 11px;
     line-height: 13px;
     color: #000000;
+}
+
+.profile__label_error {
+    padding-bottom: 2px;
 }
 
 .profile__label:first-of-type {
@@ -55,6 +60,10 @@
     box-sizing: border-box;
 }
 
+.profile__input_error {
+    color: #FF4062;
+}
+
 .profile__input:disabled {
     color: #000;
 }
@@ -64,6 +73,15 @@
     padding-bottom: 0;
 }
 
+.profile__input-error {
+    margin-top: 2px;
+    min-width: fit-content;
+    width: 100%;
+    text-align: right;
+    color: #FF4062;
+    font-size: 10px;
+    line-height: 12px;
+}
 
 .profile__button {
     font-family: 'Inter', Arial, Helvetica, sans-serif;
@@ -81,6 +99,10 @@
     opacity: .8;
 }
 
+.profile__button:disabled {
+    opacity: .4;
+}
+
 .profile__button_type_edit {
     font-weight: normal;
     margin-top: 201px;
@@ -91,6 +113,20 @@
     font-weight: 500;
     color: #FF4062;
     outline-color: #FF4062;
+}
+
+.profile__button_status {
+    margin-top: 10px;
+}
+
+.profile__status {
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-size: 12px;
+    line-height: 15px;
+    color: #FF4062;
+    text-align: center;
+    margin-top: 176px;
 }
 
 @media screen and (max-width: 950px) {
@@ -106,7 +142,15 @@
 
     .profile__button_type_edit {
         margin-top: 191px;
-    }    
+    }   
+    
+    .profile__button_status {
+        margin-top: 10px;
+    }
+
+    .profile__status {
+        margin-top: 166px;
+    }
 }
 
 @media screen and (max-width: 600px) {
@@ -119,12 +163,24 @@
         width: 100%;
     }
 
-    .profile__button_type_edit {
-        margin-top: 360px;
-    }    
-
     .profile__button {
         font-size: 12px;
         line-height: 15px;
     }
+
+    .profile__button_type_edit {
+        margin-top: 360px;
+    }
+    
+    .profile__button_status {
+        margin-top: 10px;
+    }
+
+    .profile__status {
+        margin-top: 338px;
+        font-size: 10px;
+        line-height: 12px;
+    }
+
+
 }

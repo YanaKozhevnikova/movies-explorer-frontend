@@ -1,5 +1,6 @@
+import React from 'react';
 import AuthForm from '../AuthForm/AuthForm';
-function Login({onLogin}) {
+function Login({onLogin, error, isFormLoading}) {
     return (
         <AuthForm
             heading='Рады видеть!'
@@ -8,7 +9,8 @@ function Login({onLogin}) {
             linkText='Регистрация'
             linkPath='/signup'
             onButtonClick={onLogin}
-
+            error={error}
+            isFormLoading={isFormLoading}
         />
     );
 }
